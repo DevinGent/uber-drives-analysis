@@ -121,7 +121,6 @@ plt.show()
 plt.figure(figsize=(8,6))
 sns.countplot(data=df, x='Purpose')
 plt.gca().bar_label(plt.gca().containers[0])
-# After testing the program once, the graph is more visible if we extend the vertical plotting area like so.
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
@@ -130,11 +129,43 @@ plt.show()
 plt.figure(figsize=(8,6))
 sns.countplot(data=df[df['Purpose']!="Not Provided"], x='Purpose')
 plt.gca().bar_label(plt.gca().containers[0])
-# After testing the program once, the graph is more visible if we extend the vertical plotting area like so.
 plt.xticks(rotation=45)
 plt.title('"Not Provided" removed')
 plt.tight_layout()
 plt.show()
 
+# Let us see which days of the week had the most trips.
+plt.figure(figsize=(8,6))
+sns.countplot(data=df, x='Weekday')
+plt.gca().bar_label(plt.gca().containers[0])
 
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
 
+# And now the month.
+plt.figure(figsize=(8,6))
+sns.countplot(data=df, x='Month')
+plt.gca().bar_label(plt.gca().containers[0])
+
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# There seem to be an especially large number of trips in December.  What was their purpose?
+plt.figure(figsize=(10,6))
+plt.subplot(1,2,1)
+sns.countplot(data=df, x='Purpose')
+plt.gca().bar_label(plt.gca().containers[0])
+plt.gca().set_title("All Months")
+plt.xticks(rotation=45)
+
+plt.subplot(1,2,2)
+sns.countplot(data=df[df['Month']=='December'], x='Purpose')
+plt.gca().bar_label(plt.gca().containers[0])
+plt.gca().set_title("In December")
+plt.xticks(rotation=45)
+
+plt.tight_layout()
+plt.show()
+# There are a large amount of errand/supplies trips in December.  
