@@ -108,9 +108,33 @@ print(df.corr(numeric_only=True))
 df.to_csv('CleanedData.csv', index=False)
 
 ####################################################################################################################
-
+print(df['Category'].value_counts())
 # We start visualizing the current data.
+plt.figure(figsize=(6,4))
+sns.countplot(data=df, x='Category')
+plt.gca().bar_label(plt.gca().containers[0])
+# After testing the program once, the graph is more visible if we extend the vertical plotting area like so.
+plt.gca().set_ylim([0, 1200])
+plt.tight_layout()
+plt.show()
 
+plt.figure(figsize=(8,6))
+sns.countplot(data=df, x='Purpose')
+plt.gca().bar_label(plt.gca().containers[0])
+# After testing the program once, the graph is more visible if we extend the vertical plotting area like so.
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# Clearly most trips do not provide a purpose.  It might be easier to see the remaining data if we exclude this one column.
+plt.figure(figsize=(8,6))
+sns.countplot(data=df[df['Purpose']!="Not Provided"], x='Purpose')
+plt.gca().bar_label(plt.gca().containers[0])
+# After testing the program once, the graph is more visible if we extend the vertical plotting area like so.
+plt.xticks(rotation=45)
+plt.title('"Not Provided" removed')
+plt.tight_layout()
+plt.show()
 
 
 
