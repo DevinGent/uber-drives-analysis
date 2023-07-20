@@ -149,24 +149,30 @@ sns.countplot(data=df, x='Month')
 plt.gca().bar_label(plt.gca().containers[0])
 
 plt.xticks(rotation=45)
+plt.title('Trips by Month', fontsize=20)
 plt.tight_layout()
+plt.savefig('Visuals/Trips-by-Month.png', dpi=150)
 plt.show()
 
 # There seem to be an especially large number of trips in December.  What was their purpose?
-plt.figure(figsize=(10,6))
+plt.figure(figsize=(12,6))
 plt.subplot(1,2,1)
 sns.countplot(data=df, x='Purpose')
 plt.gca().bar_label(plt.gca().containers[0])
 plt.gca().set_title("All Months")
+plt.gca().set(xlabel=None)
 plt.xticks(rotation=45)
 
 plt.subplot(1,2,2)
 sns.countplot(data=df[df['Month']=='December'], x='Purpose')
 plt.gca().bar_label(plt.gca().containers[0])
 plt.gca().set_title("In December")
+plt.gca().set(xlabel=None)
 plt.xticks(rotation=45)
 
+plt.suptitle('Trip Purpose', fontsize=20)
 plt.tight_layout()
+plt.savefig('Visuals/Trip-Purpose.png', dpi=150)
 plt.show()
 # There are a large amount of errand/supplies trips in December.  
 print(df['Purpose'].value_counts())
@@ -176,9 +182,9 @@ print(df['Purpose'].value_counts())
 stackplotdf=pd.DataFrame({'Month':df['Month'].unique()})
 print(stackplotdf)
 
-"""
 # One way to achieve what we want is the following.  After thinking carefully, there was a way to put the dataframe together
 # using a big for loop, which is the approach we opted for.
+"""
 stackplotdf['Not Provided']=[df[(df['Month']==key)&((df['Purpose']=='Not Provided'))].shape[0] for key in stackplotdf['Month']]
 print(df[(df['Month']=='January')&((df['Purpose']=='Not Provided'))])
 print("The number of trips with no purpose provided in January was {}".format(
@@ -186,6 +192,7 @@ print("The number of trips with no purpose provided in January was {}".format(
 print(stackplotdf)
 # This works, so now we repeat for the next purposes.
 """
+
 print([i for i in df['Purpose'].value_counts()[df['Purpose'].value_counts()>80].index])
 
 stackplotdf['Meeting']=[df[(df['Month']==key)&((df['Purpose']=='Meeting'))].shape[0] for key in stackplotdf['Month']]
