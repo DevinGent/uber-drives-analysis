@@ -35,15 +35,20 @@ The feature 'Window' has the following possible values, assuming a 24 hour clock
 
 We perform exploratory analysis using the preprocessed dataframe and a combination of `matplotlib` and `seaborn`. 
 Some of the resulting graphs are saved in the folder `Visuals` for demonstration.  For example, the number of trips taken in each month is shown in the following figure.
-![The number of trips per month.](Visuals\Trips-by-Month.png)
+
+![The number of trips per month.](Visuals/Trips-by-Month.png)
 
 Investigating the uptick of trips in the month of December, we see a difference in the proportion of trips with purpose Errand/Supplies during the month of December.
-![Example showing trip purpose.](Visuals\Trip-Purpose.png)
+
+![Example showing trip purpose.](Visuals/Trip-Purpose.png)
 
 
 ## Dataset
 The dataset used in our analysis, `My-Uber-Drives-2016.csv`, can be freely obtained from Kaggle via the following link:
-[https://www.kaggle.com/datasets/zusmani/uberdrives](https://www.kaggle.com/datasets/zusmani/uberdrives) under the DcBL license.
+
+[https://www.kaggle.com/datasets/zusmani/uberdrives](https://www.kaggle.com/datasets/zusmani/uberdrives) 
+
+under the DcBL license.
 It contains information on one person's Uber trips during the year 2016.
 
 ## Dependencies
