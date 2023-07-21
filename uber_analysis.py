@@ -151,7 +151,7 @@ plt.gca().bar_label(plt.gca().containers[0])
 plt.xticks(rotation=45)
 plt.title('Trips by Month', fontsize=20)
 plt.tight_layout()
-plt.savefig('Visuals/Trips-by-Month.png', dpi=150)
+plt.savefig('Visuals/Trips-by-Month.png')
 plt.show()
 
 # There seem to be an especially large number of trips in December.  What was their purpose?
@@ -172,7 +172,7 @@ plt.xticks(rotation=45)
 
 plt.suptitle('Trip Purpose', fontsize=20)
 plt.tight_layout()
-plt.savefig('Visuals/Trip-Purpose.png', dpi=150)
+plt.savefig('Visuals/Trip-Purpose.png')
 plt.show()
 # There are a large amount of errand/supplies trips in December.  
 print(df['Purpose'].value_counts())
