@@ -110,7 +110,104 @@ df.to_csv('CleanedData.csv', index=False)
 ####################################################################################################################
 
 # We start visualizing the current data.
+plt.figure(figsize=(6,4))
+sns.countplot(data=df, x='Category')
+plt.gca().bar_label(plt.gca().containers[0])
+# After testing the program once, the graph is more visible if we extend the vertical plotting area like so.
+plt.gca().set_ylim([0, 1200])
+plt.tight_layout()
+plt.show()
 
+plt.figure(figsize=(8,6))
+sns.countplot(data=df, x='Purpose')
+plt.gca().bar_label(plt.gca().containers[0])
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
 
+# Clearly most trips do not provide a purpose.  It might be easier to see the remaining data if we exclude this one column.
+plt.figure(figsize=(8,6))
+sns.countplot(data=df[df['Purpose']!="Not Provided"], x='Purpose')
+plt.gca().bar_label(plt.gca().containers[0])
+plt.xticks(rotation=45)
+plt.title('"Not Provided" removed')
+plt.tight_layout()
+plt.show()
 
+# Let us see which days of the week had the most trips.
+plt.figure(figsize=(8,6))
+sns.countplot(data=df, x='Weekday')
+plt.gca().bar_label(plt.gca().containers[0])
 
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# And now the month.
+plt.figure(figsize=(8,6))
+sns.countplot(data=df, x='Month')
+plt.gca().bar_label(plt.gca().containers[0])
+
+plt.xticks(rotation=45)
+plt.title('Trips by Month', fontsize=20)
+plt.tight_layout()
+plt.savefig('Visuals/Trips-by-Month.png')
+plt.show()
+
+# There seem to be an especially large number of trips in December.  What was their purpose?
+plt.figure(figsize=(12,6))
+plt.subplot(1,2,1)
+sns.countplot(data=df, x='Purpose')
+plt.gca().bar_label(plt.gca().containers[0])
+plt.gca().set_title("All Months")
+plt.gca().set(xlabel=None)
+plt.xticks(rotation=45)
+
+plt.subplot(1,2,2)
+sns.countplot(data=df[df['Month']=='December'], x='Purpose')
+plt.gca().bar_label(plt.gca().containers[0])
+plt.gca().set_title("In December")
+plt.gca().set(xlabel=None)
+plt.xticks(rotation=45)
+
+plt.suptitle('Trip Purpose', fontsize=20)
+plt.tight_layout()
+plt.savefig('Visuals/Trip-Purpose.png')
+plt.show()
+# There are a large amount of errand/supplies trips in December.  
+print(df['Purpose'].value_counts())
+# Let us compare what the purposes are by month.  For simplicity, we will only consider the top seven purposes
+# i.e. 'Not Provided' through 'Between Offices'.
+# We will make a stackplotdf to achieve this.
+stackplotdf=pd.DataFrame({'Month':df['Month'].unique()})
+print(stackplotdf)
+
+# One way to achieve what we want is the following.  After thinking carefully, there was a way to put the dataframe together
+# using a big for loop, which is the approach we opted for.
+"""
+stackplotdf['Not Provided']=[df[(df['Month']==key)&((df['Purpose']=='Not Provided'))].shape[0] for key in stackplotdf['Month']]
+print(df[(df['Month']=='January')&((df['Purpose']=='Not Provided'))])
+print("The number of trips with no purpose provided in January was {}".format(
+    df[(df['Month']=='January')&((df['Purpose']=='Not Provided'))].shape[0]))
+print(stackplotdf)
+# This works, so now we repeat for the next purposes.
+"""
+
+print([i for i in df['Purpose'].value_counts()[df['Purpose'].value_counts()>80].index])
+
+stackplotdf['Meeting']=[df[(df['Month']==key)&((df['Purpose']=='Meeting'))].shape[0] for key in stackplotdf['Month']]
+
+for purpose in df['Purpose'].value_counts()[df['Purpose'].value_counts()>80].index:
+    stackplotdf[purpose]=[df[(df['Month']==key)&((df['Purpose']==purpose))].shape[0] for key in stackplotdf['Month']]
+
+print(stackplotdf)
+plt.figure(figsize=(10,6))
+sns.set_theme()
+plt.stackplot(stackplotdf['Month'], 
+              [stackplotdf[key] for key in df['Purpose'].value_counts()[df['Purpose'].value_counts()>80].index],
+              labels=[key for key in df['Purpose'].value_counts()[df['Purpose'].value_counts()>80].index])
+plt.xticks(rotation=45)
+plt.legend(loc='upper left')
+plt.ylabel("Number of Trips")
+plt.tight_layout()
+plt.show()
